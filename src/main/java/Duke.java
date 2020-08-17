@@ -5,6 +5,14 @@ public class Duke {
                 + "| | | | | | | |/ / _ \\\n"
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
+
+        String welcomeMessage=
+                "________________________________\n"
+                +"Hello! I'm Duke\n"
+                +"What can I do for you?\n"
+                +"________________________________\n"
+                +"Bye. Hope to see you again soon!\n"
+                +"________________________________";
+        System.out.println(welcomeMessage);
     }
 }
