@@ -4,9 +4,9 @@ import java.util.Scanner;
 public class Duke {
     public static void main(String[] args) {
         boolean byeDetected=false;
-        boolean listDetected=false;
+        boolean commandsDetected=false; // Commands Such as Done/ List
         Scanner in = new Scanner(System.in);
-        String[] list=new String[100];
+        Task[] list=new Task[100];
         int listCount=0;
         String input;
         String border="\n________________________________";
@@ -31,33 +31,49 @@ public class Duke {
 
 
         while(!byeDetected){
-            listDetected=false;
+            commandsDetected=false;
             input = in.nextLine();
             String[] words = input.split(" ");
-            for (String word:words){
-                if (word.equalsIgnoreCase("bye")){
+            for (int i=0;i<words.length;i++){
+                switch (words[i].toLowerCase()) {
+                case "bye":{
                     byeDetected=true;
-                    break;
-                }
-                else if(word.equalsIgnoreCase("list")) {
-                    if (listCount==0)
-                    {
-                        System.out.println("No list Detected, add some text!"+border);
-                    }
-                    else{
-                        for(int i=0;i<listCount;i++){
-                            int position =i+1;
-                            System.out.println(position +". "+ list[i]);
+                    break; }
+                case "list":{
+                        if (listCount==0) {
+                            System.out.println("No list Detected, add some text!"+border);
                         }
-                        System.out.println(borderWithoutSkip);
+                        else{
+                            for(int j=0;j<listCount;j++){
+                                int position =j+1;
+                                System.out.println(position +"."+"["+list[j].getStatusIcon()+"] " + list[j].description);
+                            }
+                            System.out.println(borderWithoutSkip);
+                        }
+                        commandsDetected=true;
+                        break;
                     }
-                    listDetected=true;
-                    break;
+                case "done":{
+
+                        int taskNum=Integer.parseInt(words[i+1]);
+                        list[taskNum-1].maskAsDone();
+                        System.out.println("Nice! I've marked this task as done:"
+                                +"\n"
+                                +"["
+                                + list[taskNum-1].getStatusIcon()
+                                +"] "
+                                + list[taskNum-1].description
+                                + border
+                                );
+                        commandsDetected=true;
+                        break;
+                    }
                 }
             }
-            if(!byeDetected&&!listDetected)
+            if(!byeDetected&&!commandsDetected)
             {
-                list[listCount]=input;
+                Task t = new Task(input);
+                list[listCount]=t;
                 listCount++;
                 System.out.println("added: "+ input+border);
             }
