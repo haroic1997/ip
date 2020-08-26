@@ -3,8 +3,9 @@ import java.util.Scanner;
 
 public class Duke {
     public static void main(String[] args) {
+        /* To check if keywords like bye, list or done is used */
         boolean byeDetected=false;
-        boolean commandsDetected=false; // Commands Such as Done/ List
+        boolean commandsDetected=false;
         Scanner in = new Scanner(System.in);
         Task[] list=new Task[100];
         int listCount=0;
@@ -17,24 +18,24 @@ public class Duke {
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
 
-        String welcomeMessage=
+        String welcomeMessage =
                 "________________________________\n"
                 +"Whats up people! Duke is here to save the day\n"
                 +"Soooo, what can I do for you?\n"
                 +"________________________________\n";
 
-        String byeMessage=
+        String byeMessage =
                 "Aye captain. This is Duke Signing out!\n"
                 +"________________________________";
 
         System.out.println(welcomeMessage);
 
 
-        while(!byeDetected){
+        while (!byeDetected) {
             commandsDetected=false;
             input = in.nextLine();
             String[] words = input.split(" ");
-            for (int i=0;i<words.length;i++){
+            for (int i=0;i<words.length;i++) {
                 switch (words[i].toLowerCase()) {
                 case "bye":{
                     byeDetected=true;
@@ -46,7 +47,9 @@ public class Duke {
                         else{
                             for(int j=0;j<listCount;j++){
                                 int position =j+1;
-                                System.out.println(position +"."+"["+list[j].getStatusIcon()+"] " + list[j].description);
+                                System.out.println(position +"." +"["
+                                        +list[j].getStatusIcon()+"] "
+                                        + list[j].description);
                             }
                             System.out.println(borderWithoutSkip);
                         }
@@ -70,8 +73,7 @@ public class Duke {
                     }
                 }
             }
-            if(!byeDetected&&!commandsDetected)
-            {
+            if (!byeDetected&&!commandsDetected) {
                 Task t = new Task(input);
                 list[listCount]=t;
                 listCount++;
