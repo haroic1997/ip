@@ -4,4 +4,8 @@ public class ToDo extends Task{
         super(description);
         super.taskType="T";
     }
+    @Override
+    public String getFullDescription() {
+        return description;
+    }
 }
