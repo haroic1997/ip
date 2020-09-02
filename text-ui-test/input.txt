@@ -1,0 +1,4 @@
+todo workout
+deadline cs2113 exam /by nov
+event Group presentation /at Dec 20 2020
+list
