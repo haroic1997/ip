@@ -82,7 +82,7 @@ public class Duke {
                     addToList(t);
                 }catch (DukeException e){
                     switch (e.exceptionType){
-                    case MISSING_INPUT:
+                    case MISSING_DESCRIPTION:
                         print(" The Description of a todo cannot be empty");
                         break;
                     }
@@ -92,61 +92,89 @@ public class Duke {
                 break;
 
             case "deadline":
-                if(words.length==1){
-                    print(" The Description of a deadline cannot be empty");
-                }
-                else{
-                    int byPosition=0;
-                    String byDescription="";
-                    for(int j =1; j< words.length;j++){
-                        if(words[j].contains("/by")){
-                            byPosition=j;
-                            break;
-                        }
-                        else{
-                            description+= words[j]+ " ";
-                        }
+//                if(words.length==1){
+//                    print(" The Description of a deadline cannot be empty");
+//                }
+//                else{
+//                    int byPosition=0;
+//                    String byDescription="";
+//                    for(int j =1; j< words.length;j++){
+//                        if(words[j].contains("/by")){
+//                            byPosition=j;
+//                            break;
+//                        }
+//                        else{
+//                            description+= words[j]+ " ";
+//                        }
+//                    }
+//                    if(byPosition!=0){
+//                        for (int k = byPosition+1; k < words.length; k++) {
+//                            byDescription= byDescription +" "+ words[k];
+//                        }
+//                        Deadline d= new Deadline(description,byDescription);
+//                        addToList(d);
+//                    }
+//                    else{
+//                        print("No Deadline Detected!");
+//                        printBorder();
+//                    }
+//                }
+                try{
+                    Deadline d = validateDeadline(words);
+                    addToList(d);
+                }catch (DukeException e){
+                    switch (e.exceptionType){
+                    case MISSING_DESCRIPTION:
+                        print(" The Description of a Deadline cannot be empty");
+                        break;
+                    case MISSING_DEADLINE:
+                        print(" The Timing Information of a Deadline cannot be empty");
+                        break;
                     }
-                    if(byPosition!=0){
-                        for (int k = byPosition+1; k < words.length; k++) {
-                            byDescription= byDescription +" "+ words[k];
-                        }
-                        Deadline d= new Deadline(description,byDescription);
-                        addToList(d);
-                    }
-                    else{
-                        print("No Deadline Detected!");
-                        printBorder();
-                    }
+
                 }
 
                 break;
             case "event":
-                if(words.length==1){
-                    print(" The Description of a event cannot be empty");
-                }
-                else{
-                    int atPosition=0;
-                    String atDescription="";
-                    for(int j =1; j< words.length;j++){
-                        if(words[j].contains("/at")){
-                            atPosition=j;
-                            break;
-                        }
-                        else{
-                            description+= words[j]+ " ";
-                        }
-                    }
-                    if(atPosition!=0){
-                        for (int k = atPosition+1; k < words.length; k++) {
-                            atDescription= atDescription +" "+ words[k];
-                        }
-                        Event e = new Event(description,atDescription);
-                        addToList(e);
-                    }
-                    else{
-                        print("Missing Event location info!");
-                        printBorder();
+//                if(words.length==1){
+//                    print(" The Description of a event cannot be empty");
+//                }
+//                else{
+//                    int atPosition=0;
+//                    String atDescription="";
+//                    for(int j =1; j< words.length;j++){
+//                        if(words[j].contains("/at")){
+//                            atPosition=j;
+//                            break;
+//                        }
+//                        else{
+//                            description+= words[j]+ " ";
+//                        }
+//                    }
+//                    if(atPosition!=0){
+//                        for (int k = atPosition+1; k < words.length; k++) {
+//                            atDescription= atDescription +" "+ words[k];
+//                        }
+//                        Event e = new Event(description,atDescription);
+//                        addToList(e);
+//                    }
+//                    else{
+//                        print("Missing Event location info!");
+//                        printBorder();
+//                    }
+//
+//                }
+                try{
+                    Event ev = validateEvent(words);
+                    addToList(ev);
+                }catch (DukeException e){
+                    switch (e.exceptionType){
+                    case MISSING_DESCRIPTION:
+                        print(" The Description of a Event cannot be empty");
+                        break;
+                    case MISSING_EVENT_INFO:
+                        print(" The Logistic Information of a Event cannot be empty");
+                        break;
                     }
 
                 }
@@ -187,7 +215,7 @@ public class Duke {
         ToDo t;
         String description="";
         if(words.length==1){
-            throw new DukeException(DukeExceptionType.MISSING_INPUT);
+            throw new DukeException(DukeExceptionType.MISSING_DESCRIPTION);
         }
         else{
             for (int j = 1; j < words.length; j++) {
@@ -197,19 +225,65 @@ public class Duke {
         }
         return t;
     }
-//    public static Deadline validateDeadline(String[] words) throws DukeException{
-//        Deadline d;
-//        String description="";
-//        if(words.length==1){
-//            throw new DukeException(DukeExceptionType.MISSING_INPUT);
-//        }
-//        else{
-//            for (int j = 1; j < words.length; j++) {
-//                description += words[j] + " ";
-//            }
-//            d = new Deadline(description,);
-//        }
-//        return d;
-//    }
+    public static Deadline validateDeadline(String[] words) throws DukeException{
+        Deadline d;
+        String description="";
+        if(words.length==1){
+            throw new DukeException(DukeExceptionType.MISSING_DESCRIPTION);
+        }
+        else{
+            int byPosition=0;
+            String byDescription="";
+            for(int j =1; j< words.length;j++){
+                if(words[j].contains("/by")){
+                    byPosition=j;
+                    break;
+                }
+                else{
+                    description+= words[j]+ " ";
+                }
+            }
+            if(byPosition!=0){
+                for (int k = byPosition+1; k < words.length; k++) {
+                    byDescription= byDescription +" "+ words[k];
+                }
+                d= new Deadline(description,byDescription);
+            }
+            else{
+                throw new DukeException(DukeExceptionType.MISSING_DEADLINE);
+            }
+        }
+        return d;
+    }
+    public static Event validateEvent(String[] words) throws DukeException{
+        Event e;
+        String description="";
+        if(words.length==1){
+            throw new DukeException(DukeExceptionType.MISSING_DESCRIPTION);
+        }
+        else{
+            int atPosition=0;
+            String atDescription="";
+            for(int j =1; j< words.length;j++){
+                if(words[j].contains("/at")){
+                    atPosition=j;
+                    break;
+                }
+                else{
+                    description+= words[j]+ " ";
+                }
+            }
+            if(atPosition!=0){
+                for (int k = atPosition+1; k < words.length; k++) {
+                    atDescription= atDescription +" "+ words[k];
+                }
+                e= new Event(description,atDescription);
+            }
+            else{
+                throw new DukeException(DukeExceptionType.MISSING_EVENT_INFO);
+            }
+        }
+        return e;
+    }
 
 }
