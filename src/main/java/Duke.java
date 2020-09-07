@@ -32,12 +32,13 @@ public class Duke {
         while (!byeDetected) {
             input = in.nextLine();
             String[] words = input.split(" ");
+            String description = "";
             switch (words[0].toLowerCase()) {
-            case "bye": {
+            case "bye":
                 byeDetected = true;
                 break;
-            }
-            case "list": {
+
+            case "list":
                 if (listCount == 0) {
                     System.out.println("No list Detected, add some text!" + BORDER);
                 } else {
@@ -50,8 +51,8 @@ public class Duke {
                     System.out.println(BORDER_WITHOUT_SKIP);
                 }
                 break;
-            }
-            case "done": {
+
+            case "done":
 
                 int taskNum = Integer.parseInt(words[1]);
                 list[taskNum - 1].maskAsDone();
@@ -64,20 +65,19 @@ public class Duke {
                         + BORDER
                 );
                 break;
-            }
-            case "todo": {
-                String description = "";
+
+            case "todo":
+
                 for (int j = 1; j < words.length; j++) {
                     description += words[j] + " ";
                 }
                 ToDo t = new ToDo(description);
                 addToList(t);
                 break;
-            }
-            case "deadline":{
+
+            case "deadline":
                 int byPosition=0;
                 String byDescription="";
-                String description = "";
                 for(int j =1; j< words.length;j++){
                     if(words[j].contains("/by")){
                         byPosition=j;
@@ -93,11 +93,9 @@ public class Duke {
                 Deadline d= new Deadline(description,byDescription);
                 addToList(d);
                 break;
-            }
-            case "event":{
+            case "event":
                 int atPosition=0;
                 String atDescription="";
-                String description = "";
                 for(int j =1; j< words.length;j++){
                     if(words[j].contains("/at")){
                         atPosition=j;
@@ -113,8 +111,6 @@ public class Duke {
                 Event e= new Event(description,atDescription);
                 addToList(e);
                 break;
-            }
-
             default:{
                 System.out.println("No proper Commands Detected");
                 break;
