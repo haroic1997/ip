@@ -1,3 +1,10 @@
+package duke;
+
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
+import duke.task.ToDo;
+
 import java.util.Scanner;
 
 
@@ -18,12 +25,12 @@ public class Duke {
 
         String welcomeMessage = logo +
                 "________________________________\n"
-                +"Whats up people! Duke is here to save the day\n"
+                +"Whats up people! duke.Duke is here to save the day\n"
                 +"Soooo, what can I do for you?\n"
                 +"________________________________\n";
 
         String byeMessage =
-                "Aye captain. This is Duke Signing out!\n"
+                "Aye captain. This is duke.Duke Signing out!\n"
                 +"________________________________";
 
         print(welcomeMessage);
@@ -86,10 +93,10 @@ public class Duke {
                 }catch (DukeException e){
                     switch (e.exceptionType){
                     case MISSING_DESCRIPTION:
-                        print(" The Description of a Deadline cannot be empty");
+                        print(" The Description of a duke.task.Deadline cannot be empty");
                         break;
                     case MISSING_DEADLINE:
-                        print(" The Timing Information of a Deadline cannot be empty");
+                        print(" The Timing Information of a duke.task.Deadline cannot be empty");
                         break;
                     }
                 }
@@ -102,10 +109,10 @@ public class Duke {
                 }catch (DukeException e){
                     switch (e.exceptionType){
                     case MISSING_DESCRIPTION:
-                        print(" The Description of a Event cannot be empty");
+                        print(" The Description of a duke.task.Event cannot be empty");
                         break;
                     case MISSING_EVENT_INFO:
-                        print(" The Logistic Information of a Event cannot be empty");
+                        print(" The Logistic Information of a duke.task.Event cannot be empty");
                         break;
                     }
                 }
