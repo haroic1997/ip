@@ -32,7 +32,6 @@ public class Duke {
         while (!byeDetected) {
             input = in.nextLine();
             String[] words = input.split(" ");
-            String description = "";
             switch (words[0].toLowerCase()) {
             case "bye":
                 byeDetected = true;
@@ -67,16 +66,6 @@ public class Duke {
                 break;
 
             case "todo":
-//                if(words.length==1){
-//                    print(" The Description of a todo cannot be empty");
-//                }
-//                else{
-//                    for (int j = 1; j < words.length; j++) {
-//                        description += words[j] + " ";
-//                    }
-//                    ToDo t = new ToDo(description);
-//                    addToList(t);
-//                }
                 try{
                     ToDo t = validateToDo(words);
                     addToList(t);
@@ -87,38 +76,10 @@ public class Duke {
                         break;
                     }
                 }
-
                 printBorder();
                 break;
 
             case "deadline":
-//                if(words.length==1){
-//                    print(" The Description of a deadline cannot be empty");
-//                }
-//                else{
-//                    int byPosition=0;
-//                    String byDescription="";
-//                    for(int j =1; j< words.length;j++){
-//                        if(words[j].contains("/by")){
-//                            byPosition=j;
-//                            break;
-//                        }
-//                        else{
-//                            description+= words[j]+ " ";
-//                        }
-//                    }
-//                    if(byPosition!=0){
-//                        for (int k = byPosition+1; k < words.length; k++) {
-//                            byDescription= byDescription +" "+ words[k];
-//                        }
-//                        Deadline d= new Deadline(description,byDescription);
-//                        addToList(d);
-//                    }
-//                    else{
-//                        print("No Deadline Detected!");
-//                        printBorder();
-//                    }
-//                }
                 try{
                     Deadline d = validateDeadline(words);
                     addToList(d);
@@ -131,39 +92,10 @@ public class Duke {
                         print(" The Timing Information of a Deadline cannot be empty");
                         break;
                     }
-
                 }
-
+                printBorder();
                 break;
             case "event":
-//                if(words.length==1){
-//                    print(" The Description of a event cannot be empty");
-//                }
-//                else{
-//                    int atPosition=0;
-//                    String atDescription="";
-//                    for(int j =1; j< words.length;j++){
-//                        if(words[j].contains("/at")){
-//                            atPosition=j;
-//                            break;
-//                        }
-//                        else{
-//                            description+= words[j]+ " ";
-//                        }
-//                    }
-//                    if(atPosition!=0){
-//                        for (int k = atPosition+1; k < words.length; k++) {
-//                            atDescription= atDescription +" "+ words[k];
-//                        }
-//                        Event e = new Event(description,atDescription);
-//                        addToList(e);
-//                    }
-//                    else{
-//                        print("Missing Event location info!");
-//                        printBorder();
-//                    }
-//
-//                }
                 try{
                     Event ev = validateEvent(words);
                     addToList(ev);
@@ -176,15 +108,13 @@ public class Duke {
                         print(" The Logistic Information of a Event cannot be empty");
                         break;
                     }
-
                 }
-
+                printBorder();
                 break;
-            default:{
+            default:
                 print("No proper Commands Detected");
                 printBorder();
                 break;
-            }
             }
 
         }
@@ -201,7 +131,7 @@ public class Duke {
                 + list[listCount - 1].getStatusIcon() + "] "
                 + list[listCount-1].getFullDescription()
                 + "\nNow you have "+ listCount+" tasks in the list."
-                +BORDER );
+                );
     }
 
     public static void print(String Descriptions){
