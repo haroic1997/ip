@@ -5,12 +5,13 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class Duke {
     public static int listCount=0;
-    static  Task[] list=new Task[100];
+    static  ArrayList<Task> list=new ArrayList<>();
     static final String BORDER="\n________________________________";
     static final String BORDER_WITHOUT_SKIP="________________________________";
     public static void main(String[] args) {
@@ -50,9 +51,9 @@ public class Duke {
                 } else {
                     for (int j = 0; j < listCount; j++) {
                         int position = j + 1;
-                        print(position + "." + list[j].getTaskType() + "["
-                                + list[j].getStatusIcon() + "] "
-                                + list[j].getFullDescription());
+                        print(position + "." + list.get(j).getTaskType() + "["
+                                + list.get(j).getStatusIcon() + "] "
+                                + list.get(j).getFullDescription());
                     }
                     printBorder();
                 }
@@ -61,17 +62,26 @@ public class Duke {
             case "done":
 
                 int taskNum = Integer.parseInt(words[1]);
-                list[taskNum - 1].maskAsDone();
+                list.get(taskNum - 1).maskAsDone();
                 print("Nice! I've marked this task as done:"
                         + "\n"
                         + "["
-                        + list[taskNum - 1].getStatusIcon()
+                        + list.get(taskNum - 1).getStatusIcon()
                         + "] "
-                        + list[taskNum - 1].getFullDescription()
+                        + list.get(taskNum - 1).getFullDescription()
                         + BORDER
                 );
                 break;
+            case "delete":
+                int taskNumber = Integer.parseInt(words[1]);
+                if(listCount!=0){
+                    deleteItemFromList(taskNumber-1);
+                }
+                else{
+                    print("The list is empty! Nothing to delete!");
+                }
 
+                break;
             case "todo":
                 try{
                     ToDo t = validateToDo(words);
@@ -130,13 +140,12 @@ public class Duke {
     }
 
     public static void addToList(Task t) {
-
-        list[listCount] = t;
+        list.add(listCount,t);
         listCount++;
         print("Got it. I've added this task: \n"
-                + list[listCount - 1].getTaskType() + "["
-                + list[listCount - 1].getStatusIcon() + "] "
-                + list[listCount-1].getFullDescription()
+                + list.get(listCount - 1).getTaskType() + "["
+                + list.get(listCount - 1).getStatusIcon() + "] "
+                + list.get(listCount - 1).getFullDescription()
                 + "\nNow you have "+ listCount+" tasks in the list."
                 );
     }
@@ -146,6 +155,21 @@ public class Duke {
     }
     public static void printBorder(){
         System.out.println(BORDER_WITHOUT_SKIP);
+    }
+
+    public static void deleteItemFromList(int index){
+        print("Nice! I've removed this task:"
+                + "\n" + list.get(index).getTaskType()
+                + "["
+                + list.get(index).getStatusIcon()
+                + "] "
+                + list.get(index).getFullDescription()
+                + "\nNow you have " + (listCount - 1)
+                +" tasks in the list."
+        );
+    list.remove(index);
+    listCount--;
+        printBorder();
     }
 
     public static ToDo validateToDo(String[] words) throws DukeException{
