@@ -30,7 +30,7 @@ public class Duke {
                 +"________________________________\n";
 
         String byeMessage =
-                "Aye captain. This is duke.Duke Signing out!\n"
+                "Aye captain. This is Duke Signing out!\n"
                 +"________________________________";
 
         print(welcomeMessage);
