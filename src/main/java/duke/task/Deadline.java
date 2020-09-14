@@ -14,11 +14,15 @@ public class Deadline extends Task{
     }
     @Override
     public String getFullDescription() {
-        return description + "(by:" + by + ")";
+        return description + " (by:" + by + ")";
     }
 
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by + ")";
+    }
+
+    public String getTimingInfo(){
+        return by;
     }
 }

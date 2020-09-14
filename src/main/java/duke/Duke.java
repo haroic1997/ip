@@ -6,16 +6,24 @@ import duke.task.Task;
 import duke.task.ToDo;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 
 public class Duke {
     public static int listCount=0;
-    static  ArrayList<Task> list=new ArrayList<>();
+    static  ArrayList<Task> tasks=new ArrayList<>();
+    //static  Task[] tasks =new Task[100];
+
     static final String BORDER="\n________________________________";
     static final String BORDER_WITHOUT_SKIP="________________________________";
+    static final String FILE_PATH="data/duke.txt";
     public static void main(String[] args) {
         boolean byeDetected=false;
+
         Scanner in = new Scanner(System.in);
         String input;
         String logo = " ____        _        \n"
@@ -35,7 +43,11 @@ public class Duke {
                 +"________________________________";
 
         print(welcomeMessage);
-
+        try {
+            loadFileContents(FILE_PATH);
+        }catch (FileNotFoundException e){
+            print("Either File not found or File does not exist yet!");
+        }
 
         while (!byeDetected) {
             input = in.nextLine();
@@ -46,29 +58,18 @@ public class Duke {
                 break;
 
             case "list":
-                if (listCount == 0) {
-                    print("No list Detected, add some text!" + BORDER);
-                } else {
-                    for (int j = 0; j < listCount; j++) {
-                        int position = j + 1;
-                        print(position + "." + list.get(j).getTaskType() + "["
-                                + list.get(j).getStatusIcon() + "] "
-                                + list.get(j).getFullDescription());
-                    }
-                    printBorder();
-                }
+                listContent();
                 break;
 
             case "done":
-
                 int taskNum = Integer.parseInt(words[1]);
-                list.get(taskNum - 1).maskAsDone();
+                tasks.get(taskNum - 1).maskAsDone();
                 print("Nice! I've marked this task as done:"
                         + "\n"
                         + "["
-                        + list.get(taskNum - 1).getStatusIcon()
+                        + tasks.get(taskNum - 1).getStatusIcon()
                         + "] "
-                        + list.get(taskNum - 1).getFullDescription()
+                        + tasks.get(taskNum - 1).getFullDescription()
                         + BORDER
                 );
                 break;
@@ -139,15 +140,35 @@ public class Duke {
 
     }
 
+    public static void listContent() {
+        if (listCount == 0) {
+            print("No list Detected, add some text!" + BORDER);
+        } else {
+            for (int j = 0; j < listCount; j++) {
+                int position = j + 1;
+                print(position + "." +"["+ tasks.get(j).getTaskType() +"]"+ "["
+                        + tasks.get(j).getStatusIcon() + "] "
+                        + tasks.get(j).getFullDescription());
+            }
+            printBorder();
+        }
+    }
+
     public static void addToList(Task t) {
-        list.add(listCount,t);
+
+        tasks.add(listCount,t);
         listCount++;
         print("Got it. I've added this task: \n"
-                + list.get(listCount - 1).getTaskType() + "["
-                + list.get(listCount - 1).getStatusIcon() + "] "
-                + list.get(listCount - 1).getFullDescription()
+                + tasks.get(listCount - 1).getTaskType() + "["
+                + tasks.get(listCount - 1).getStatusIcon() + "] "
+                + tasks.get(listCount - 1).getFullDescription()
                 + "\nNow you have "+ listCount+" tasks in the list."
                 );
+        try{
+            appendToFile(FILE_PATH,t);
+        } catch (IOException e){
+            print("Something went wrong: "+ e.getMessage());
+        }
     }
 
     public static void print(String Descriptions){
@@ -156,18 +177,95 @@ public class Duke {
     public static void printBorder(){
         System.out.println(BORDER_WITHOUT_SKIP);
     }
+    public static void loadFileContents(String filePath) throws FileNotFoundException {
+    File f = new File(filePath);
+    Scanner s = new Scanner(f);
+    int dashPosition;
+    int atPosition;
+    String description;
+    String timedateInfo;
+    while(s.hasNext()){
+//        print(s.nextLine());
+        String contents=s.nextLine();
+        dashPosition = contents.indexOf("-");
+        String[] words = contents.split("|");
+        switch (words[0]){
+        case "D":
+            atPosition = contents.indexOf("@");
+            description = contents.substring(dashPosition+1,atPosition);
+            timedateInfo = contents.substring(atPosition+1);
+            tasks.add(new Deadline(description.trim(),timedateInfo.trim()));
+            listCount++;
+            break;
+        case "E":
+            atPosition = contents.indexOf("@");
+            description = contents.substring(dashPosition+1,atPosition);
+            timedateInfo = contents.substring(atPosition+1);
+            tasks.add(new Event(description.trim(),timedateInfo.trim()));
+            listCount++;
+            break;
+        case "T":
+            description = contents.substring(dashPosition+1);
+            tasks.add(new ToDo(description.trim()));
+            listCount++; break;
+        default: break;
+        }
+    }
+    listContent();
+    }
+
+    public static void appendToFile(String filePath,Task t) throws IOException{
+        FileWriter fw = new FileWriter(filePath,true);
+        if(t instanceof Event){
+            fw.write(t.getTaskType()+"|"+ t.getStatusIcon()
+                    +" - "+t.getDescription()+" @ " +((Event) t).getLocation()
+                    +System.lineSeparator());
+        }
+        else if(t instanceof Deadline){
+            fw.write(t.getTaskType()+"|"+ t.getStatusIcon()
+                    +" - "+t.getDescription()+" @ " +((Deadline) t).getTimingInfo()
+                    + System.lineSeparator());
+        }
+        else {
+            fw.write(t.getTaskType()+"|"+ t.getStatusIcon()
+                    +" - "+t.getDescription()+ System.lineSeparator());
+        }
+        fw.close();
+    }
+    public static void updateDeletionOfFile(String filePath) throws IOException{
+        FileWriter fw = new FileWriter(filePath,true);
+        for(int i=0;i<listCount;i++){
+            if(tasks.get(i) instanceof Event){
+                fw.write(tasks.get(i).getTaskType()+"|"+ tasks.get(i).getStatusIcon()
+                        +" - "+tasks.get(i).getDescription()+" @ " +((Event) tasks.get(i)).getLocation()
+                        +System.lineSeparator());
+            }
+            else if(tasks.get(i) instanceof Deadline){
+                fw.write(tasks.get(i).getTaskType()+"|"+ tasks.get(i).getStatusIcon()
+                        +" - "+tasks.get(i).getDescription()+" @ " +((Deadline) tasks.get(i)).getTimingInfo()
+                        + System.lineSeparator());
+            }
+            else {
+                fw.write(tasks.get(i).getTaskType()+"|"+ tasks.get(i).getStatusIcon()
+                        +" - "+tasks.get(i).getDescription()+ System.lineSeparator());
+            }
+        }
+        fw.close();
+    }
+
+
 
     public static void deleteItemFromList(int index){
         print("Nice! I've removed this task:"
-                + "\n" + list.get(index).getTaskType()
+                + "\n" + tasks.get(index).getTaskType()
                 + "["
-                + list.get(index).getStatusIcon()
+                + tasks.get(index).getStatusIcon()
                 + "] "
-                + list.get(index).getFullDescription()
+                + tasks.get(index).getFullDescription()
                 + "\nNow you have " + (listCount - 1)
                 +" tasks in the list."
         );
-    list.remove(index);
+    tasks.remove(index);
     listCount--;
         printBorder();
     }
@@ -246,5 +344,6 @@ public class Duke {
         }
         return e;
     }
+
 
 }
