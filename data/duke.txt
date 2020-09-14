@@ -1,11 +1,6 @@
-T|✘ - workout
-T|✘ - workout
 D|✘ - study @ sunday
 E|✘ - jogging @ monday
 T|✘ - money work
-T|✘ - sundae icecream 
-T|✘ - wokfry 
-E|✘ - bomb  @  suntec
-T|✘ - monster energy 
-T|✘ - 1 
-E|✘ - moneyyyy  @  marina
+T|✘ - sundae icecream
+T|✘ - wokfry
+E|✘ - bomb @ suntec

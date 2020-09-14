@@ -233,6 +233,8 @@ public class Duke {
         fw.close();
     }
     public static void updateDeletionOfFile(String filePath) throws IOException{
+        FileWriter fw0=new FileWriter(filePath);
+        fw0.write("");
         FileWriter fw = new FileWriter(filePath,true);
         for(int i=0;i<listCount;i++){
             if(tasks.get(i) instanceof Event){
@@ -267,6 +269,11 @@ public class Duke {
         );
     tasks.remove(index);
     listCount--;
+    try{
+        updateDeletionOfFile(FILE_PATH);
+    }catch (IOException e){
+        print("Problem with saving file!");
+    }
         printBorder();
     }
 
