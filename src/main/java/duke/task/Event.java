@@ -9,6 +9,9 @@ public class Event extends Task {
     }
     @Override
     public String getFullDescription() {
-        return description + "(at:" + at + ")";
+        return description + " (at:" + at + ")";
+    }
+    public String getLocation(){
+        return at;
     }
 }

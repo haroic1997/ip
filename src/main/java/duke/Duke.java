@@ -4,17 +4,22 @@ import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 
 public class Duke {
     public static int listCount=0;
-    static  Task[] list=new Task[100];
+    static  Task[] tasks =new Task[100];
     static final String BORDER="\n________________________________";
     static final String BORDER_WITHOUT_SKIP="________________________________";
+    static final String FILE_PATH="data/duke.txt";
     public static void main(String[] args) {
         boolean byeDetected=false;
+
         Scanner in = new Scanner(System.in);
         String input;
         String logo = " ____        _        \n"
@@ -34,7 +39,11 @@ public class Duke {
                 +"________________________________";
 
         print(welcomeMessage);
-
+        try {
+            loadFileContents(FILE_PATH);
+        }catch (FileNotFoundException e){
+            print("Either File not found or File does not exist yet!");
+        }
 
         while (!byeDetected) {
             input = in.nextLine();
@@ -45,29 +54,18 @@ public class Duke {
                 break;
 
             case "list":
-                if (listCount == 0) {
-                    print("No list Detected, add some text!" + BORDER);
-                } else {
-                    for (int j = 0; j < listCount; j++) {
-                        int position = j + 1;
-                        print(position + "." + list[j].getTaskType() + "["
-                                + list[j].getStatusIcon() + "] "
-                                + list[j].getFullDescription());
-                    }
-                    printBorder();
-                }
+                listContent();
                 break;
 
             case "done":
-
                 int taskNum = Integer.parseInt(words[1]);
-                list[taskNum - 1].maskAsDone();
+                tasks[taskNum - 1].maskAsDone();
                 print("Nice! I've marked this task as done:"
                         + "\n"
                         + "["
-                        + list[taskNum - 1].getStatusIcon()
+                        + tasks[taskNum - 1].getStatusIcon()
                         + "] "
-                        + list[taskNum - 1].getFullDescription()
+                        + tasks[taskNum - 1].getFullDescription()
                         + BORDER
                 );
                 break;
@@ -129,16 +127,35 @@ public class Duke {
 
     }
 
+    public static void listContent() {
+        if (listCount == 0) {
+            print("No list Detected, add some text!" + BORDER);
+        } else {
+            for (int j = 0; j < listCount; j++) {
+                int position = j + 1;
+                print(position + "." +"["+ tasks[j].getTaskType() +"]"+ "["
+                        + tasks[j].getStatusIcon() + "] "
+                        + tasks[j].getFullDescription());
+            }
+            printBorder();
+        }
+    }
+
     public static void addToList(Task t) {
 
-        list[listCount] = t;
+        tasks[listCount] = t;
         listCount++;
-        print("Got it. I've added this task: \n"
-                + list[listCount - 1].getTaskType() + "["
-                + list[listCount - 1].getStatusIcon() + "] "
-                + list[listCount-1].getFullDescription()
+        print("Got it. I've added this task: \n"+ "["
+                + tasks[listCount - 1].getTaskType() +"]"+ "["
+                + tasks[listCount - 1].getStatusIcon() + "] "
+                + tasks[listCount-1].getFullDescription()
                 + "\nNow you have "+ listCount+" tasks in the list."
                 );
+        try{
+            appendToFile(FILE_PATH,t);
+        } catch (IOException e){
+            print("Something went wrong: "+ e.getMessage());
+        }
     }
 
     public static void print(String Descriptions){
@@ -147,6 +164,83 @@ public class Duke {
     public static void printBorder(){
         System.out.println(BORDER_WITHOUT_SKIP);
     }
+    public static void loadFileContents(String filePath) throws FileNotFoundException {
+    File f = new File(filePath);
+    Scanner s = new Scanner(f);
+    int dashPosition;
+    int atPosition;
+    String description;
+    String timedateInfo;
+    while(s.hasNext()){
+//        print(s.nextLine());
+        String contents=s.nextLine();
+        dashPosition = contents.indexOf("-");
+        String[] words = contents.split("|");
+        switch (words[0]){
+        case "D":
+            atPosition = contents.indexOf("@");
+            description = contents.substring(dashPosition+1,atPosition);
+            timedateInfo = contents.substring(atPosition+1);
+            tasks[listCount]=new Deadline(description.trim(),timedateInfo.trim());
+            listCount++;
+            break;
+        case "E":
+            atPosition = contents.indexOf("@");
+            description = contents.substring(dashPosition+1,atPosition);
+            timedateInfo = contents.substring(atPosition+1);
+            tasks[listCount]=new Event(description.trim(),timedateInfo.trim());
+            listCount++;
+            break;
+        case "T":
+            description = contents.substring(dashPosition+1);
+            tasks[listCount]=new ToDo(description.trim());
+            listCount++; break;
+        default: break;
+        }
+    }
+    listContent();
+    }
+
+    public static void appendToFile(String filePath,Task t) throws IOException{
+        FileWriter fw = new FileWriter(filePath,true);
+        if(t instanceof Event){
+            fw.write(t.getTaskType()+"|"+ t.getStatusIcon()
+                    +" - "+t.getDescription()+" @ " +((Event) t).getLocation()
+                    +System.lineSeparator());
+        }
+        else if(t instanceof Deadline){
+            fw.write(t.getTaskType()+"|"+ t.getStatusIcon()
+                    +" - "+t.getDescription()+" @ " +((Deadline) t).getTimingInfo()
+                    + System.lineSeparator());
+        }
+        else {
+            fw.write(t.getTaskType()+"|"+ t.getStatusIcon()
+                    +" - "+t.getDescription()+ System.lineSeparator());
+        }
+        fw.close();
+    }
+    public static void updateDeletionOfFile(String filePath) throws IOException{
+        FileWriter fw = new FileWriter(filePath,true);
+        for(int i=0;i<listCount;i++){
+            if(tasks[i] instanceof Event){
+                fw.write(tasks[i].getTaskType()+"|"+ tasks[i].getStatusIcon()
+                        +" - "+tasks[i].getDescription()+" @ " +((Event) tasks[i]).getLocation()
+                        +System.lineSeparator());
+            }
+            else if(tasks[i] instanceof Deadline){
+                fw.write(tasks[i].getTaskType()+"|"+ tasks[i].getStatusIcon()
+                        +" - "+tasks[i].getDescription()+" @ " +((Deadline) tasks[i]).getTimingInfo()
+                        + System.lineSeparator());
+            }
+            else {
+                fw.write(tasks[i].getTaskType()+"|"+ tasks[i].getStatusIcon()
+                        +" - "+tasks[i].getDescription()+ System.lineSeparator());
+            }
+        }
+        fw.close();
+    }
+
+
 
     public static ToDo validateToDo(String[] words) throws DukeException{
         ToDo t;
@@ -222,5 +316,6 @@ public class Duke {
         }
         return e;
     }
+
 
 }
