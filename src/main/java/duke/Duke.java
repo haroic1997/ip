@@ -47,6 +47,7 @@ public class Duke {
             loadFileContents(FILE_PATH);
         }catch (FileNotFoundException e){
             print("Either File not found or File does not exist yet!");
+            createSavedFile();
         }
 
         while (!byeDetected) {
@@ -167,7 +168,8 @@ public class Duke {
         try{
             appendToFile(FILE_PATH,t);
         } catch (IOException e){
-            print("Something went wrong: "+ e.getMessage());
+
+//            print("Something went wrong: "+ e.getMessage());
         }
     }
 
@@ -254,7 +256,22 @@ public class Duke {
         }
         fw.close();
     }
+    public static void createSavedFile(){
+        print("So we have create a new file duke.txt under data directory for you");
+        File f = new File("data");
+        boolean isCreated =f.mkdir();
+        File g =new File(FILE_PATH);
 
+        if(isCreated){
+            try{
+                g.createNewFile();
+            }catch(IOException e){
+                print("Sorry Couldnt create save file!");
+            }
+        }else{
+            System.out.println("Sorry Couldn’t create save file");
+        }
+    }
 
 
     public static void deleteItemFromList(int index){
