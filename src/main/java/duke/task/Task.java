@@ -1,5 +1,9 @@
 package duke.task;
 
+/**
+ * Task object contain information information in a task
+ * such as task description and whether it's done yet.
+ */
 public class Task {
 
     protected String description;

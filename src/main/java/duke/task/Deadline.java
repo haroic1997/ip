@@ -1,5 +1,8 @@
 package duke.task;
-
+/**
+ *Inherited from Task object, Deadline class has additional attributes
+ * to store deadline timing
+ */
 public class Deadline extends Task{
     protected String by;
 

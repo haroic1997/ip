@@ -1,11 +1,13 @@
-package duke;
+package duke.command;
 
-import duke.task.Task;
+import duke.Storage;
 import duke.task.TaskList;
-import duke.task.Ui;
+import duke.Ui;
 
 
-
+/**
+ * the base for all other Command classes to inherit from
+ */
 public abstract class Command {
 
     private boolean isExit;

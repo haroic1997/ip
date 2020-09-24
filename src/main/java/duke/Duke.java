@@ -1,17 +1,17 @@
 package duke;
 
-import duke.task.*;
+import duke.command.Command;
+import duke.task.TaskList;
 import java.io.FileNotFoundException;
 
 
-
+/**
+ * Duke class is the main class for running the Duke application
+ */
 public class Duke {
-    public static int listCount=0;
     private Storage storage;
     private Ui ui;
     private TaskList tasks;
-    static final String BORDER="\n________________________________";
-    static final String BORDER_WITHOUT_SKIP="________________________________";
     static final String FILE_PATH="data/duke.txt";
 
     public Duke(String FILE_PATH){
@@ -22,12 +22,17 @@ public class Duke {
             tasks=new TaskList(storage.load());
             tasks.listContents();
         }catch ( FileNotFoundException e){
-            print("Either Saved File not found or File does not exist yet!");
+            System.out.println("Either Saved File not found or File does not exist yet!");
             tasks = new TaskList();
             storage.createSavedFile();
         }
 
     }
+
+    /**
+     * Used to keep the Duke programme running on repeat until a Exit command
+     * is detected whereby the program will then exit
+     */
     public void run(){
         boolean isExit=false;
 
@@ -39,18 +44,16 @@ public class Duke {
             isExit=c.isExit();
         } catch (DukeException e) {
             ui.showError(e.exceptionType);
-        } finally {
         }
-
     }
     ui.byeMessage();
     }
-
+    /**
+     * The main function to run the whole Duke app
+     */
     public static void main(String[] args) {
         new Duke(FILE_PATH).run();
     }
 
-    public static void print(String Descriptions){
-        System.out.println(Descriptions);
-    }
+
 }

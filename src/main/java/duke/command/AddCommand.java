@@ -1,12 +1,15 @@
-package duke;
+package duke.command;
 
+import duke.Storage;
 import duke.task.Task;
 import duke.task.TaskList;
-import duke.task.Ui;
+import duke.Ui;
 
 import java.io.IOException;
 
-
+/**
+ * Represents a command for adding different subclass of tasks
+ */
 public class AddCommand  extends Command{
 
     private Task task;
@@ -28,6 +31,7 @@ public class AddCommand  extends Command{
                     + tasks.getIndex(tasks.getSize() - 1).getFullDescription()
                     + "\nNow you have "+ tasks.getSize()+" tasks in the list."
         );
+        Ui.showDivider();
         try{
             storage.appendToFile(task);
         } catch (IOException e){

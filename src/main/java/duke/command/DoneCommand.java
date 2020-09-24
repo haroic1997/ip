@@ -1,10 +1,14 @@
-package duke;
+package duke.command;
 
+import duke.Storage;
 import duke.task.TaskList;
-import duke.task.Ui;
+import duke.Ui;
 
 import java.io.IOException;
-
+/**
+ * DoneCommand is used when an task gets done and the user want to
+ * indicate the done status on the task
+ */
 public class DoneCommand extends Command {
     private int taskNum;
     public DoneCommand(int taskNum){

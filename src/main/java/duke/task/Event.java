@@ -1,5 +1,9 @@
 package duke.task;
 
+/**
+ *Inherited from Task object, Event class has additional attributes
+ * to store logistical information
+ */
 public class Event extends Task {
     protected String at;
     public Event(String description, String at) {

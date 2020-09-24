@@ -1,14 +1,19 @@
 package duke;
 
-import duke.task.*;
-
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.ToDo;
+import duke.task.Task;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+/**
+ * Storage class is used for creating and saving file on the local hard disk.
+ * Also used for loading saved data on startup
+ */
 public class Storage {
     private String filePath;
     private ArrayList<Task> tasks;
@@ -16,6 +21,12 @@ public class Storage {
         this.filePath=filePath;
     }
 
+    /**
+     * Attempt to load saved information on the hard disk
+     *
+     * @return a list of Task
+     * @throws FileNotFoundException If there is no saved file in the specified location
+     */
     public ArrayList<Task> load() throws FileNotFoundException {
         File f = new File(filePath);
         Scanner s = new Scanner(f);
@@ -69,6 +80,10 @@ public class Storage {
         }
         return tasks;
     }
+
+    /**
+     * Creates a new "duke.txt" in the data directory for new users
+     */
     public void createSavedFile(){
         System.out.println("So we have create a new file duke.txt under data directory for you");
         File f = new File("data");
@@ -86,6 +101,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Used to update or refresh the duke.txt contents for scenarios
+     * where deletion or change in existing Information occurs
+     *
+     * @param t newly updated list
+     * @throws IOException if the saved file is not found in its expected location
+     */
     public void updateFileContents(ArrayList<Task> t) throws IOException{
         tasks=t;
         FileWriter fw0=new FileWriter(filePath);
@@ -109,6 +131,14 @@ public class Storage {
         }
         fw.close();
     }
+
+    /**
+     * Used to append to the duke.txt contents for scenarios
+     * where adding of new data on top of the existing data occurs.
+     *
+     * @param t newly updated list
+     * @throws IOException if the saved file is not found in its expected location
+     */
     public void appendToFile(Task t) throws IOException{
         FileWriter fw = new FileWriter(filePath,true);
         if(t instanceof Event){

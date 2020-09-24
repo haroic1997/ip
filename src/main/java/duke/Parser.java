@@ -1,10 +1,30 @@
 package duke;
 
-import duke.task.*;
+import duke.command.ExitCommand;
+import duke.command.ListCommand;
+import duke.command.FindCommand;
+import duke.command.DoneCommand;
+import duke.command.AddCommand;
+import duke.command.DeleteCommand;
+import duke.command.Command;
+import duke.task.Deadline;
+import duke.task.ToDo;
+import duke.task.Event;
 
+/**
+ *Parser Object is used for translating String user input into
+ * a actionable Command object for execution
+ */
 public class Parser {
     public Parser(){}
-
+    /**
+     * Convert the given string input into a subclass of Command class.
+     * return different subclass of Command class
+     *
+     * @param input User input
+     * @return a subclass of Command class
+     * @throws DukeException if invalid input
+     */
     public static Command parse(String input) throws DukeException{
         int taskNum;
         String[] words = input.split(" ");
@@ -24,57 +44,27 @@ public class Parser {
                 String keywords=sentence[1];
                 return new FindCommand(keywords);
             case "todo":
-                try{
-                    ToDo todo = validateToDo(words);
-                    return new AddCommand(todo);
-                }catch (DukeException e){
-                    switch (e.exceptionType){
-                    case MISSING_DESCRIPTION:
-                        System.out.println(" The Description of a todo cannot be empty");
-                        break;
-                    }
-                }
-                Ui.showDivider();
-                break;
-
+                ToDo todo = validateToDo(words);
+                return new AddCommand(todo);
             case "deadline":
-                try{
-                    Deadline deadline = validateDeadline(words);
-                    return new AddCommand(deadline);
-                }catch (DukeException e){
-                    switch (e.exceptionType){
-                    case MISSING_DESCRIPTION:
-                        System.out.println(" The Description of a Deadline cannot be empty");
-                        break;
-                    case MISSING_DEADLINE:
-                        System.out.println(" The Timing Information of a Deadline cannot be empty");
-                        break;
-                    }
-                }
-                Ui.showDivider();
-                break;
+                Deadline deadline = validateDeadline(words);
+                return new AddCommand(deadline);
             case "event":
-                try{
-                    Event ev = validateEvent(words);
-                    return new AddCommand(ev);
-                }catch (DukeException e){
-                    switch (e.exceptionType){
-                    case MISSING_DESCRIPTION:
-                        System.out.println(" The Description of a Event cannot be empty");
-                        break;
-                    case MISSING_EVENT_INFO:
-                        System.out.println(" The Logistic Information of a Event cannot be empty");
-                        break;
-                    }
-                }
-                Ui.showDivider();
-                break;
+                Event ev = validateEvent(words);
+                return new AddCommand(ev);
             default:
                 throw new DukeException(DukeExceptionType.INVALID_COMMAND);
             }
-            throw new DukeException(DukeExceptionType.INVALID_COMMAND);
     }
 
+    /**
+     * Used to validate and check for any errors in the user input
+     * for ToDo object
+     *
+     * @param  words representing user input
+     * @return Todo object
+     * @throws DukeException if missing information
+     */
     public static ToDo validateToDo(String[] words) throws DukeException{
         ToDo t;
         String description="";
@@ -89,6 +79,15 @@ public class Parser {
         }
         return t;
     }
+
+    /**
+     * Used to validate and check for any errors in the user input
+     * for DeadLine object
+     *
+     * @param  words representing user input
+     * @return DeadLine object
+     * @throws DukeException if missing information
+     */
     public static Deadline validateDeadline(String[] words) throws DukeException{
         Deadline d;
         String description="";
@@ -119,6 +118,15 @@ public class Parser {
         }
         return d;
     }
+
+    /**
+     * Used to validate and check for any errors in the user input
+     * for Event object
+     *
+     * @param  words representing user input
+     * @return Event object
+     * @throws DukeException if missing information
+     */
     public static Event validateEvent(String[] words) throws DukeException{
         Event e;
         String description="";

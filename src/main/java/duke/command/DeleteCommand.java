@@ -1,8 +1,11 @@
-package duke;
+package duke.command;
 
+import duke.Storage;
 import duke.task.TaskList;
-import duke.task.Ui;
-
+import duke.Ui;
+/**
+ * DeleteCommand is used to delete a task in the list
+ */
 public class DeleteCommand extends Command{
     private int taskNum;
 

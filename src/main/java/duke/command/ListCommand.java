@@ -1,9 +1,13 @@
-package duke;
+package duke.command;
 
+import duke.Storage;
 import duke.task.TaskList;
-import duke.task.Ui;
+import duke.Ui;
 
-public class ListCommand extends Command{
+/**
+ * Represents a Command for listing all the tasks
+ */
+public class ListCommand extends Command {
     @Override
     public boolean isExit() {
         return false;
