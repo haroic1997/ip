@@ -19,6 +19,10 @@ public class Parser {
             case "delete":
                 taskNum = Integer.parseInt(words[1]);
                 return new DeleteCommand(taskNum-1);
+            case "find":
+                String[] sentence = input.toLowerCase().split(" ",2);
+                String keywords=sentence[1];
+                return new FindCommand(keywords);
             case "todo":
                 try{
                     ToDo todo = validateToDo(words);
