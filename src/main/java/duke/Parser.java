@@ -5,42 +5,24 @@ import duke.task.*;
 public class Parser {
     public Parser(){}
 
-    public boolean parse(String input,TaskList t,Storage s){
-        TaskList tasks=t;
-        Storage storage=s;
+    public static Command parse(String input) throws DukeException{
+        int taskNum;
         String[] words = input.split(" ");
             switch (words[0].toLowerCase()){
             case "bye":
-                return true;
+                return new ExitCommand();
             case "list":
-                tasks.listContents();
-                break;
-
+                return new ListCommand();
             case "done":
-                int taskNum = Integer.parseInt(words[1]);
-                tasks.getIndex(taskNum - 1).maskAsDone();
-                System.out.println("Nice! I've marked this task as done:"
-                        + "\n"
-                        + "["
-                        + tasks.getIndex(taskNum - 1).getStatusIcon()
-                        + "] "
-                        + tasks.getIndex(taskNum - 1).getFullDescription()
-                );
-                Ui.showDivider();
-                break;
+                taskNum = Integer.parseInt(words[1]);
+                return  new DoneCommand(taskNum-1);
             case "delete":
-                int taskNumber = Integer.parseInt(words[1]);
-                if(tasks.getSize()!=0){
-                    tasks.deleteItemFromList(taskNumber-1,storage);
-                }
-                else{
-                    System.out.println("The list is empty! Nothing to delete!");
-                }
-                break;
+                taskNum = Integer.parseInt(words[1]);
+                return new DeleteCommand(taskNum-1);
             case "todo":
                 try{
                     ToDo todo = validateToDo(words);
-                    tasks.addToList(todo,storage);
+                    return new AddCommand(todo);
                 }catch (DukeException e){
                     switch (e.exceptionType){
                     case MISSING_DESCRIPTION:
@@ -54,7 +36,7 @@ public class Parser {
             case "deadline":
                 try{
                     Deadline deadline = validateDeadline(words);
-                    tasks.addToList(deadline,storage);
+                    return new AddCommand(deadline);
                 }catch (DukeException e){
                     switch (e.exceptionType){
                     case MISSING_DESCRIPTION:
@@ -70,7 +52,7 @@ public class Parser {
             case "event":
                 try{
                     Event ev = validateEvent(words);
-                    tasks.addToList(ev,storage);
+                    return new AddCommand(ev);
                 }catch (DukeException e){
                     switch (e.exceptionType){
                     case MISSING_DESCRIPTION:
@@ -84,11 +66,9 @@ public class Parser {
                 Ui.showDivider();
                 break;
             default:
-                System.out.println("No proper Commands Detected");
-                Ui.showDivider();
-                break;
+                throw new DukeException(DukeExceptionType.INVALID_COMMAND);
             }
-            return false;
+            throw new DukeException(DukeExceptionType.INVALID_COMMAND);
     }
 
     public static ToDo validateToDo(String[] words) throws DukeException{

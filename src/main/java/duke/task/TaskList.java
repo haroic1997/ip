@@ -22,6 +22,10 @@ public class TaskList {
         return tasks.size();
     }
 
+    public ArrayList<Task> getList(){
+        return tasks;
+    }
+
     public void listContents(){
 
         if (tasks.size() == 0) {
@@ -51,7 +55,7 @@ public class TaskList {
         );
     tasks.remove(index);
     try{
-        s.updateDeletionOfFile(tasks);
+        s.updateFileContents(tasks);
     }catch (IOException e){
         System.out.println("Problem with saving file!");
     }

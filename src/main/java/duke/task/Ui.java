@@ -2,6 +2,8 @@ package duke.task;
 
 
 
+import duke.DukeExceptionType;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -34,6 +36,19 @@ public class Ui {
     public String readCommand(){
         String command=in.nextLine();
         return command;
+    }
+    public void showError(DukeExceptionType e){
+        switch (e){
+        case MISSING_DEADLINE:
+        case MISSING_EVENT_INFO:
+        case WRONG_INPUT_FORMAT:
+        case MISSING_DESCRIPTION:
+        case INVALID_COMMAND:
+            System.out.println("No proper Commands Detected, retype again!");
+            showDivider();
+            break;
+        default:
+        }
     }
 
 

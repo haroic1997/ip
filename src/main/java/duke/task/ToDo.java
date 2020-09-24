@@ -6,6 +6,11 @@ public class ToDo extends Task{
         super(description);
         super.taskType="T";
     }
+    public ToDo(String description, boolean isDone) {
+        super(description);
+        super.taskType="T";
+        super.isDone=isDone;
+    }
     @Override
     public String getFullDescription() {
         return description;

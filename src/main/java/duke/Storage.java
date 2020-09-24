@@ -23,27 +23,46 @@ public class Storage {
         int dashPosition;
         int atPosition;
         String description;
+        String taskIdentifiers;
         String timedateInfo;
         while(s.hasNext()){
             String contents=s.nextLine();
             dashPosition = contents.indexOf("-");
+            taskIdentifiers=contents.substring(0,dashPosition);
             String[] words = contents.split("|");
             switch (words[0]){
             case "D":
                 atPosition = contents.indexOf("@");
                 description = contents.substring(dashPosition+1,atPosition);
                 timedateInfo = contents.substring(atPosition+1);
-                tasks.add(new Deadline(description.trim(),timedateInfo.trim()));
+                if(taskIdentifiers.contains("\u2713")){
+                    tasks.add(new Deadline(description.trim(),timedateInfo.trim(),true));
+                }
+                else {
+                    tasks.add(new Deadline(description.trim(),timedateInfo.trim()));
+                }
+
                 break;
             case "E":
                 atPosition = contents.indexOf("@");
                 description = contents.substring(dashPosition+1,atPosition);
                 timedateInfo = contents.substring(atPosition+1);
-                tasks.add(new Event(description.trim(),timedateInfo.trim()));
+                if(taskIdentifiers.contains("\u2713")){
+                    tasks.add(new Event(description.trim(),timedateInfo.trim(),true));
+                }
+                else {
+                    tasks.add(new Deadline(description.trim(),timedateInfo.trim()));
+                }
                 break;
             case "T":
                 description = contents.substring(dashPosition+1);
-                tasks.add(new ToDo(description.trim()));
+                if(taskIdentifiers.contains("\u2713")){
+                    tasks.add(new ToDo(description.trim(),true));
+                }
+                else {
+                    tasks.add(new ToDo(description.trim()));
+                }
+
                 break;
             default: break;
             }
@@ -67,7 +86,7 @@ public class Storage {
         }
     }
 
-    public void updateDeletionOfFile(ArrayList<Task> t) throws IOException{
+    public void updateFileContents(ArrayList<Task> t) throws IOException{
         tasks=t;
         FileWriter fw0=new FileWriter(filePath);
         fw0.write("");

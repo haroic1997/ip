@@ -8,6 +8,12 @@ public class Deadline extends Task{
         super.taskType="D";
         this.by = by;
     }
+    public Deadline(String description, String by,Boolean isDone) {
+        super(description);
+        super.taskType="D";
+        this.by = by;
+        super.isDone=isDone;
+    }
 
     public String getDeadline() {
         return by;

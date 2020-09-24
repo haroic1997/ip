@@ -1,4 +1,4 @@
-E|✘ - jogging @ monday
-T|✘ - sundae icecream
-E|✘ - bomb @ suntec
+T|✓ - sundae icecream
 T|✘ - santori
+T|✘ - math
+D|✓ - money @ sunday
