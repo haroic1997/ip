@@ -85,7 +85,7 @@ public class Storage {
      * Creates a new "duke.txt" in the data directory for new users
      */
     public void createSavedFile(){
-        System.out.println("So we have create a new file duke.txt under data directory for you");
+        System.out.println("So we have create a duke.txt under the data directory");
         File f = new File("data");
         boolean isCreated =f.mkdir();
         File g =new File(filePath);
@@ -99,6 +99,7 @@ public class Storage {
         }else{
             System.out.println("Sorry Couldn’t create save file");
         }
+        Ui.showDivider();
     }
 
     /**

@@ -22,7 +22,7 @@ public class Duke {
             tasks=new TaskList(storage.load());
             tasks.listContents();
         }catch ( FileNotFoundException e){
-            System.out.println("Either Saved File not found or File does not exist yet!");
+            System.out.println("Duke couldn't find duke.txt to load saved data from");
             tasks = new TaskList();
             storage.createSavedFile();
         }

@@ -1,5 +1,0 @@
-T|✓ - Study CS2113t 
-D|✘ - quiz 1  @  sunday
-E|✘ - marathon  @  jurong island
-T|✘ - swimming marathon 
-T|✘ - walking marathon 
