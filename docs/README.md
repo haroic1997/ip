@@ -34,7 +34,7 @@ Example: `todo Study CS2113t`
 
 Output:
 
-![](../photo/todo.PNG)
+![](photo/todo.PNG)
 #### 3.1.2 Add a Deadline Task
 This Feature will allow users to add Deadline to the list
 
@@ -44,7 +44,7 @@ Example: `deadline quiz 1 /by sunday`
 
 Output:
 
-![](../photo/deadline.PNG)
+![](photo/deadline.PNG)
 
 #### 3.1.3 Add a Event Task
 This Feature will allow users to add Event to the list
@@ -55,7 +55,7 @@ Example: `event marathon /at Jurong island`
 
 Output:
 
-![](../photo/event.PNG)
+![](photo/event.PNG)
 
 ### 3.2 Display list of Task
 This feature will display the full list of task with the command `list`
@@ -64,7 +64,7 @@ Format: `list`
 
 Example: `list`
 
-![](../photo/list.PNG)
+![](photo/list.PNG)
 ### 3.3 Mark Task as Done
 This feature will allow user to mark their task as done
 
@@ -74,7 +74,7 @@ Example: `done 2`
 
 Output: 
 
-![](../photo/done.PNG)
+![](photo/done.PNG)
 ### 3.4 Delete Task
 This feature will allow user to delete redundant task
 
@@ -84,7 +84,7 @@ Example: `delete 1`
 
 Output: 
 
-![](../photo/delete.PNG)
+![](photo/delete.PNG)
 ### 3.5 Find Task
 This feature will allow user to find task based on given keyword
 
@@ -94,7 +94,7 @@ Example: `find book`
 
 Output:
 
-![](../photo/find.PNG)
+![](photo/find.PNG)
 ## 4. Exiting the Program
 use the command `bye` to exit the program
 
@@ -104,4 +104,4 @@ Example: `bye`
 
 Output:
 
-![](../photo/bye.PNG)
+![](photo/bye.PNG)
