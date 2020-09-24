@@ -2,3 +2,5 @@ T|✓ - sundae icecream
 T|✘ - santori
 T|✘ - math
 D|✓ - money @ sunday
+T|✘ - money works 
+T|✘ - study money 
