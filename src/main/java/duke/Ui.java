@@ -8,13 +8,13 @@ import java.util.Scanner;
  */
 public class Ui {
     private Scanner in;
-    public Ui(){ in = new Scanner(System.in);
+    public Ui() { in = new Scanner(System.in);
     }
 
     /**
      *print out the on startup message
      */
-    public void welcomeMessage(){
+    public void welcomeMessage() {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -31,7 +31,7 @@ public class Ui {
     /**
      * print out the exit message
      */
-    public void byeMessage(){
+    public void byeMessage() {
         String byeMessage =
                 "Aye captain. This is Duke Signing out!\n";
         System.out.print(byeMessage);
@@ -50,7 +50,7 @@ public class Ui {
      *
      * @return String command
      */
-    public String readCommand(){
+    public String readCommand() {
         String command=in.nextLine();
         return command;
     }
@@ -60,8 +60,8 @@ public class Ui {
      *
      * @param e DukeExceptionType
      */
-    public void showError(DukeExceptionType e){
-        switch (e){
+    public void showError(DukeExceptionType e) {
+        switch (e) {
         case MISSING_DEADLINE:
             System.out.println("Missing Deadline!");
             showDivider();

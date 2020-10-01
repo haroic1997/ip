@@ -15,7 +15,7 @@ public class Task {
         this.isDone = false;
     }
 
-    public Task(){
+    public Task() {
         this.description="";
         this.isDone=false;
     }

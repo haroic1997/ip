@@ -14,14 +14,14 @@ public class Duke {
     private TaskList tasks;
     static final String FILE_PATH="data/duke.txt";
 
-    public Duke(String FILE_PATH){
+    public Duke(String FILE_PATH) {
         ui=new Ui();
         ui.welcomeMessage();
         storage=new Storage(FILE_PATH);
         try {
             tasks=new TaskList(storage.load());
             tasks.listContents();
-        }catch ( FileNotFoundException e){
+        } catch ( FileNotFoundException e){
             System.out.println("Duke couldn't find duke.txt to load saved data from");
             tasks = new TaskList();
             storage.createSavedFile();
@@ -33,10 +33,10 @@ public class Duke {
      * Used to keep the Duke programme running on repeat until a Exit command
      * is detected whereby the program will then exit
      */
-    public void run(){
+    public void run() {
         boolean isExit=false;
 
-    while( !isExit ){
+    while( !isExit ) {
         String fullCommand = ui.readCommand();
         try {
             Command c = Parser.parse(fullCommand);

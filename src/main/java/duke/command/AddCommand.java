@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Represents a command for adding different subclass of tasks
  */
-public class AddCommand  extends Command{
+public class AddCommand  extends Command {
 
     private Task task;
     public AddCommand(Task task){

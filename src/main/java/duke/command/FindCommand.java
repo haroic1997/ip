@@ -30,7 +30,7 @@ public class FindCommand extends Command {
         }
         int position=1;
         System.out.println("Here are the matching Tasks in your list:");
-        for (Task i: list){
+        for (Task i: list) {
             System.out.println(position + "." + "[" + i.getTaskType() + "]" + "["
                     + i.getStatusIcon() + "] "
                     + i.getFullDescription());

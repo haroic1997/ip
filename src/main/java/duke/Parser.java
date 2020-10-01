@@ -25,32 +25,40 @@ public class Parser {
      * @return a subclass of Command class
      * @throws DukeException if invalid input
      */
-    public static Command parse(String input) throws DukeException{
+    public static Command parse(String input) throws DukeException {
         int taskNum;
         String[] words = input.split(" ");
             switch (words[0].toLowerCase()){
             case "bye":
+                //Fallthrough
                 return new ExitCommand();
             case "list":
+                //Fallthrough
                 return new ListCommand();
             case "done":
                 taskNum = Integer.parseInt(words[1]);
+                //Fallthrough
                 return  new DoneCommand(taskNum-1);
             case "delete":
                 taskNum = Integer.parseInt(words[1]);
+                //Fallthrough
                 return new DeleteCommand(taskNum-1);
             case "find":
                 String[] sentence = input.toLowerCase().split(" ",2);
                 String keywords=sentence[1];
+                //Fallthrough
                 return new FindCommand(keywords);
             case "todo":
                 ToDo todo = validateToDo(words);
+                //Fallthrough
                 return new AddCommand(todo);
             case "deadline":
                 Deadline deadline = validateDeadline(words);
+                //Fallthrough
                 return new AddCommand(deadline);
             case "event":
                 Event ev = validateEvent(words);
+                //Fallthrough
                 return new AddCommand(ev);
             default:
                 throw new DukeException(DukeExceptionType.INVALID_COMMAND);
@@ -65,7 +73,7 @@ public class Parser {
      * @return Todo object
      * @throws DukeException if missing information
      */
-    public static ToDo validateToDo(String[] words) throws DukeException{
+    public static ToDo validateToDo(String[] words) throws DukeException {
         ToDo t;
         String description="";
         if(words.length==1){
@@ -88,7 +96,7 @@ public class Parser {
      * @return DeadLine object
      * @throws DukeException if missing information
      */
-    public static Deadline validateDeadline(String[] words) throws DukeException{
+    public static Deadline validateDeadline(String[] words) throws DukeException {
         Deadline d;
         String description="";
         if(words.length==1){
@@ -127,31 +135,31 @@ public class Parser {
      * @return Event object
      * @throws DukeException if missing information
      */
-    public static Event validateEvent(String[] words) throws DukeException{
+    public static Event validateEvent(String[] words) throws DukeException {
         Event e;
         String description="";
-        if(words.length==1){
+        if(words.length==1) {
             throw new DukeException(DukeExceptionType.MISSING_DESCRIPTION);
         }
-        else{
+        else {
             int atPosition=0;
             String atDescription="";
-            for(int j =1; j< words.length;j++){
-                if(words[j].contains("/at")){
+            for(int j =1; j< words.length;j++) {
+                if(words[j].contains("/at")) {
                     atPosition=j;
                     break;
                 }
-                else{
+                else {
                     description+= words[j]+ " ";
                 }
             }
-            if(atPosition!=0){
+            if(atPosition!=0) {
                 for (int k = atPosition+1; k < words.length; k++) {
                     atDescription= atDescription +" "+ words[k];
                 }
                 e= new Event(description,atDescription);
             }
-            else{
+            else {
                 throw new DukeException(DukeExceptionType.MISSING_EVENT_INFO);
             }
         }

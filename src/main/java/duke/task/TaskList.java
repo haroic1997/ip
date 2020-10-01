@@ -34,13 +34,13 @@ public class TaskList {
     /**
      * Print out all the task in a list form
      */
-    public void listContents(){
+    public void listContents() {
 
         if (tasks.size() == 0) {
             System.out.println("No list Detected, add some text!");
             Ui.showDivider();
         }
-        else{
+        else {
         for (int j = 0; j < tasks.size(); j++) {
             int position = j + 1;
             System.out.println(position + "." + "[" + tasks.get(j).getTaskType() + "]" + "["
@@ -67,9 +67,9 @@ public class TaskList {
                 +" tasks in the list."
         );
     tasks.remove(index);
-    try{
+    try {
         storage.updateFileContents(tasks);
-    }catch (IOException e){
+    } catch (IOException e) {
         System.out.println("Problem with saving file!");
     }
         Ui.showDivider();

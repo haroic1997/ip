@@ -20,7 +20,7 @@ public class DoneCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage){
+    public void execute(TaskList taskList, Ui ui, Storage storage) {
         taskList.getIndex(taskNum).maskAsDone();
         System.out.println("Nice! I've marked this task as done:"
                 + "\n"
@@ -30,9 +30,9 @@ public class DoneCommand extends Command {
                 + taskList.getIndex(taskNum).getFullDescription()
         );
         Ui.showDivider();
-        try{
+        try {
             storage.updateFileContents(taskList.getList());
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Problem with saving file!");
         }
     }

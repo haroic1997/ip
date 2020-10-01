@@ -6,7 +6,7 @@ import duke.Ui;
 /**
  * DeleteCommand is used to delete a task in the list
  */
-public class DeleteCommand extends Command{
+public class DeleteCommand extends Command {
     private int taskNum;
 
     public DeleteCommand(int taskNum){
@@ -19,10 +19,10 @@ public class DeleteCommand extends Command{
 
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) {
-        if(taskList.getSize()!=0){
+        if (taskList.getSize()!=0) {
                     taskList.deleteItemFromList(taskNum,storage);
                 }
-                else{
+                else {
                     System.out.println("The list is empty! Nothing to delete!");
                 }
     }

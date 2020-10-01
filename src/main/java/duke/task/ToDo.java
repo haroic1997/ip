@@ -3,7 +3,7 @@ package duke.task;
  *Inherited from Task object, Todo class represents a task object with no
  * additional attributes
  */
-public class ToDo extends Task{
+public class ToDo extends Task {
 
     public ToDo(String description) {
         super(description);
