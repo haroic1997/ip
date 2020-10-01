@@ -135,7 +135,7 @@ public class Storage {
 
     /**
      * Used to append to the duke.txt contents for scenarios
-     * where adding of new data on top of the existing data occurs.
+     * where adding of new data on top of existing data occurs.
      *
      * @param t newly updated list
      * @throws IOException if the saved file is not found in its expected location
